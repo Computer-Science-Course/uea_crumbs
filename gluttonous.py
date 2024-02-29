@@ -43,6 +43,23 @@ for key, a_tag in enumerate(a_tags):
     response = requests.get(url, headers=headers, verify=False)
     if response.status_code == 200:
         news_html = response.text
+        news_html = response.text
+        news_soup = BeautifulSoup(news_html, 'lxml', parser='html.parser')
+        raw_datetime = news_soup.select('.panel .panel-body h5')[0].text
+        raw_title = news_soup.select('.panel .panel-body h2')[0].text
+        raw_src_image = news_soup.select('.panel .panel-body .container-fluid .row img')[0]['src']
+        raw_paragraphs = news_soup.select('.panel .panel-body > p')
+        raw_related_links_title = news_soup.select('.panel .panel-body panel-group list-group-item > list-group-item-heading > p')
+        raw_related_links_ancor = news_soup.select('.panel .panel-body panel-group panel-default > a')
+
+        paragraphs = [raw_paragraph.text for raw_paragraph in raw_paragraphs if raw_paragraph.text]
+        print(raw_related_links_title)
+        # related_links = [
+        #     { 'title': raw_related_link_title.text, 'href': raw_related_link_ancor, }
+        #     for raw_related_link_title, raw_related_link_ancor in zip(raw_related_links_title, raw_related_links_ancor)
+        # ]
+
+        # print(raw_datetime, raw_title, raw_src_image, paragraphs, related_links)
     else:
         print("Failed to retrieve the content:", response.status_code)
         exit(1)
