@@ -1,8 +1,8 @@
 """
 Parsing on news pages.
 """
-import re
 from datetime import datetime
+import locale
 
 from requests.models import Response
 
@@ -19,8 +19,7 @@ class TomeNews(Tome):
 
         Return (NewsInfo): Info from news page.
         """
-        # raw_datetime = self.content.select('.panel .panel-body h5')[0].text
-        raw_datetime = 'Publicada em: 19/11/2024 14:30'
+        raw_datetime = self.content.select('header ul .meta-date')[0].text
         title = self.content.select('.page-title')[0].text
         # src_image = self.content.select('.panel .panel-body .container-fluid .row img')[0]['src']
         raw_paragraphs = self.content.select('article p')
@@ -54,13 +53,6 @@ class TomeNews(Tome):
 
         Return (datetime): Datetime object.
         """
-        pattern = r'^Publicada em:.*(?P<date>\d{2}\/\d{2}\/\d{4}) (?P<time>\d{2}:\d{2})$'
-        match = re.match(pattern, str_datetime)
-        conversion = None
-        if match:
-            raw_date = match.groupdict().get('date')
-            raw_time = match.groupdict().get('time')
-            conversion = datetime.strptime(
-                f'{raw_date} {raw_time}', '%d/%m/%Y %H:%M',
-            )
-        return conversion
+        locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')
+
+        return datetime.strptime(str_datetime, "%d de %B de %Y").date()
