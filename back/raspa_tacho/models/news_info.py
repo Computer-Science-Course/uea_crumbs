@@ -7,13 +7,15 @@ class NewsInfo:
         self,
         datetime,
         title,
-        src_image,
+        cover_image_src,
+        post_images_srcs,
         paragraphs,
         related_links,
     ):
         self.datetime = datetime
         self.title = title
-        self.src_image = src_image
+        self.cover_image_src = cover_image_src
+        self.post_images_srcs = post_images_srcs
         self.paragraphs = paragraphs
         self.related_links = related_links
 
@@ -21,7 +23,8 @@ class NewsInfo:
         return '\n'.join([
             f'Datetime: {self.datetime}',
             f'Title: {self.title}',
-            f'Image src: {self.src_image}',
+            f'Cover image src: {self.cover_image_src}',
+            f'Post images srcs: {self.post_images_srcs}',
             '\n\n'.join(self.paragraphs),
             f'Related links: {self.related_links}'
         ])

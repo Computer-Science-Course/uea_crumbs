@@ -21,7 +21,8 @@ class TomeNews(Tome):
         """
         raw_datetime = self.content.select('header ul .meta-date')[0].text
         title = self.content.select('.page-title')[0].text
-        # src_image = self.content.select('.panel .panel-body .container-fluid .row img')[0]['src']
+        cover_image_src = self.content.select('.hero-section img')[0]['src']
+        post_images_srcs = [image['src'] for image in self.content.select('.ct-container > article img')]
         raw_paragraphs = self.content.select('article p')
         raw_related_link_anchors = self.content.select('.panel .panel-body .panel-group .panel-default > a')
         raw_related_link_titles = self.content.select('.panel .panel-body .panel-group .panel-default > a p')
@@ -38,9 +39,10 @@ class TomeNews(Tome):
         return NewsInfo(
             str(datetime_object),
             title,
-            '',
+            cover_image_src,
+            post_images_srcs,
             paragraphs,
-            related_links
+            related_links,
         )
 
     @staticmethod
