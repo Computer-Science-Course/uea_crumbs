@@ -18,10 +18,10 @@ class NewsInfo:
         self.related_links = related_links
 
     def __str__(self):
-        return ' | '.join([
-            self.datetime,
-            self.title,
-            self.src_image,
-            self.paragraphs[0],
-            str(self.related_links),
+        return '\n'.join([
+            f'Datetime: {self.datetime}',
+            f'Title: {self.title}',
+            f'Image src: {self.src_image}',
+            '\n\n'.join(self.paragraphs),
+            f'Related links: {self.related_links}'
         ])

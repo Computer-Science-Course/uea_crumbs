@@ -17,6 +17,6 @@ class TomeHome(Tome):
 
         Return (List[str]): Last news urls.
         """
-        a_tags = self.content.select('.carousel-inner .item a')
+        a_tags = self.content.select('.link_noticia_text')
         urls = [a_tag['href'] for a_tag in a_tags]
         return urls
